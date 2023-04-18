@@ -1,18 +1,14 @@
-package com.br.saude.medicos.dto;
+package com.br.saude.dto.medicos;
 
-import java.math.BigInteger;
-import java.time.LocalDate;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
 @Data
-public class MedicoDTO {
-
-    @JsonProperty("id_medico")
-    private BigInteger id;
-
+public class MedicoRequestDTO {
+    
     @JsonProperty("nome_medico")
     private String name;
 
@@ -20,11 +16,11 @@ public class MedicoDTO {
     private String email;
 
     @JsonProperty("data_nascimento")
-    private LocalDate BirthDate; 
+    private Date BirthDate; 
 
     @JsonProperty("salario_base")
-    private BigInteger BaseSalary;
+    private Double BaseSalary;
 
     @JsonProperty("id_departamento")
-    private Long DepartmentId;
+    private Integer DepartmentId;
 }
