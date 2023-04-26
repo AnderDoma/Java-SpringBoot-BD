@@ -1,59 +1,49 @@
 package com.br.saude.consulta.controller.especialidade;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.br.saude.consulta.service.especialidade.EspecialidadeService;
 import com.br.saude.dto.especialidade.EspecialidadeDTO;
-import com.br.saude.entity.Especialidade;
-import com.br.saude.repository.especialidade.EspecialidadeRepository;
 
 @RestController
 @RequestMapping("/v1/saude/especialidade")
 public class EspecialidadeController {
 	
 	@Autowired
-	EspecialidadeRepository especialidadeRepositoy;
+	EspecialidadeService especialidadeService;
 	
 	@GetMapping("")
-    public ResponseEntity<List<Especialidade>> ConsultarTodasEspecialidades()  {  
-		List<Especialidade> response = especialidadeRepositoy.findAllByOrderByIdAsc();
-		
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<?> consultarTodasEspecialidades()  {  
+		return especialidadeService.consultarTodasEspecialidades();
     }
-	
+
 	@GetMapping("/{id}")
-    public ResponseEntity<EspecialidadeDTO> GetById(
-    		@PathVariable("id") Integer id)
-    {  
-		Optional<Especialidade> response = especialidadeRepositoy.findById(id);
-		
-		EspecialidadeDTO especialidade = new EspecialidadeDTO();
-		especialidade.setId(response.get().getId());
-		especialidade.setName(response.get().getName());
-		
-        return new ResponseEntity<>(especialidade, HttpStatus.OK);
-    }
+	public ResponseEntity<?> getById(@PathVariable("id") Integer id) {
+		return especialidadeService.getById(id);
+	}
 	
 	@PostMapping("/registrar")
-    public ResponseEntity<Especialidade> GetById(
-    		@RequestBody EspecialidadeDTO especialidadeDTO) {  
-    	
-		Especialidade especialidade = new Especialidade();
-		especialidade.setName(especialidadeDTO.getName());
-	
-		Especialidade response = especialidadeRepositoy.save(especialidade);
+	public ResponseEntity<?> registrarEspecialidade(@RequestBody EspecialidadeDTO especialidadeDTO) {
+		return especialidadeService.registrarEspecialidade(especialidadeDTO);
+	}
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+	@PutMapping("/atualizar")
+    public ResponseEntity<?> atualizarEspecialidade(
+    		@RequestBody EspecialidadeDTO especialidadeDTO) {  
+		return especialidadeService.atualizarEspecialidade(especialidadeDTO);
     }
 
+	@DeleteMapping("/remover/{id}")
+	public ResponseEntity<?> deletarEspecialidade(@PathVariable("id") Integer id) {
+		return especialidadeService.deletarEspecialidade(id);
+	}
 }

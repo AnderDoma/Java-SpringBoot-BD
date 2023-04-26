@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.br.saude.dto.especialidade.EspecialidadeDTO;
 import com.br.saude.entity.Especialidade;
 
+import jakarta.transaction.Transactional;
+
 @Repository
 public interface EspecialidadeRepository extends JpaRepository<Especialidade, Integer> {
 
@@ -18,5 +20,6 @@ public interface EspecialidadeRepository extends JpaRepository<Especialidade, In
 	
 	Especialidade save(EspecialidadeDTO especialidade);
  
-    void deleteEspecialidadeById(Integer Id);
+	@Transactional
+	Integer deleteEspecialidadeById(Integer Id);
 }
