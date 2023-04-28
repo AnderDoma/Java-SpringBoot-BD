@@ -4,7 +4,7 @@
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/AnderDoma/SpringBootProject/blob/main/Licence) 
 
 # Sobre o projeto
-Projeto criado com o objetivo de implementar um ambiente com Java e SpringBoot, para futuramente integrar com um Front-End.
+Projeto criado com o objetivo de implementar um ambiente com Java e SpringBoot, para futuramente integrar a um Front-End.
 
 ## Modelo conceitual
 ![Modelo Conceitual](https://github.com/AnderDoma/images/blob/main/ML.PNG)
