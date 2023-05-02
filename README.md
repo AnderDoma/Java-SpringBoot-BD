@@ -7,7 +7,7 @@
 Projeto criado com o objetivo de implementar um ambiente com Java e SpringBoot, para futuramente integrar a um Front-End.
 
 ## Modelo conceitual
-![Modelo Conceitual](https://github.com/AnderDoma/images/blob/main/ML.PNG)
+![Modelo Conceitual](https://github.com/AnderDoma/images/blob/main/ModeloLógico.PNG)
 
 # Tecnologias utilizadas
 ## Back end
