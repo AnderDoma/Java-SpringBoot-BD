@@ -25,5 +25,5 @@ public class MedicoDTO {
     private Double BaseSalary;
 
     @JsonProperty("id_departamento")
-    private Integer DepartmentId;
+    private Integer DepartmentoId;
 }

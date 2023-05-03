@@ -16,13 +16,13 @@ import com.br.saude.repository.especialidade.EspecialidadeRepository;
 public class EspecialidadeService {
 
 	@Autowired
-	EspecialidadeRepository especialidadeRepositoy;
+	EspecialidadeRepository especialidadeRepository;
 
 	public ResponseEntity<?> consultarTodasEspecialidades() {
 		List<Especialidade> response = null;
 
 		try {
-			response = especialidadeRepositoy.findAllByOrderByIdAsc();
+			response = especialidadeRepository.findAllByOrderByIdAsc();
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
@@ -32,18 +32,18 @@ public class EspecialidadeService {
 
 	public ResponseEntity<?> getById(Integer id) {
 		Optional<Especialidade> response = null;
-		EspecialidadeDTO especialidade = new EspecialidadeDTO();
 
 		try {
-			response = especialidadeRepositoy.findById(id);
+			response = especialidadeRepository.findById(id);
 
-			especialidade.setId(response.get().getId());
-			especialidade.setName(response.get().getName());
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 
-		return new ResponseEntity<>(especialidade, HttpStatus.OK);
+		if (response.isPresent()) {
+			return new ResponseEntity<>(response.get(), HttpStatus.OK);
+		}
+		return new ResponseEntity<>("ID não encontrado", HttpStatus.NO_CONTENT);
 	}
 
 	public ResponseEntity<?> registrarEspecialidade(EspecialidadeDTO especialidadeDTO) {
@@ -53,7 +53,7 @@ public class EspecialidadeService {
 		Especialidade response = new Especialidade();
 
 		try {
-			response = especialidadeRepositoy.save(especialidade);
+			response = especialidadeRepository.save(especialidade);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
@@ -66,7 +66,7 @@ public class EspecialidadeService {
 		Especialidade response = new Especialidade();
 
 		try {
-			responseConsulta = especialidadeRepositoy.findById(especialidadeDTO.getId());
+			responseConsulta = especialidadeRepository.findById(especialidadeDTO.getId());
 
 			if (!responseConsulta.isPresent()) {
 				return new ResponseEntity<>("ID Não encontrado.", HttpStatus.BAD_REQUEST);
@@ -76,7 +76,7 @@ public class EspecialidadeService {
 			especialidade.setId(especialidadeDTO.getId());
 			especialidade.setName(especialidadeDTO.getName());
 
-			response = especialidadeRepositoy.save(especialidade);
+			response = especialidadeRepository.save(especialidade);
 		} catch (Exception e) {
 			return new ResponseEntity<>("ERRO AO REALIZAR A OPERAÇÃO", HttpStatus.UNAUTHORIZED);
 		}
@@ -88,13 +88,13 @@ public class EspecialidadeService {
 		Optional<Especialidade> especialidade = null;
 
 		try {
-			especialidade = especialidadeRepositoy.findById(id);
+			especialidade = especialidadeRepository.findById(id);
 
 			if (!especialidade.isPresent()) {
 				return new ResponseEntity<>("ID Não encontrado.", HttpStatus.BAD_REQUEST);
 			}
 
-			Integer response = especialidadeRepositoy.deleteEspecialidadeById(id);
+			Integer response = especialidadeRepository.deleteEspecialidadeById(id);
 
 			if (response == 0) {
 				return new ResponseEntity<>("Especialidade não foi removida!", HttpStatus.UNAUTHORIZED);

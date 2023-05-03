@@ -33,19 +33,18 @@ public class DepartamentoService {
 
 	public ResponseEntity<?> getById(Integer id) {
 		Optional<Departamento> response = null; 
-		DepartamentoDTO dptoDto = new DepartamentoDTO();
 		
 		try {
 			response = departamentoRepository.findById(id);
-			
-			dptoDto.setId(response.get().getId());
-			dptoDto.setName(response.get().getName());
-			dptoDto.setEspecialidadeId(response.get().getEspecialidadeId());
+		
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 		
-        return new ResponseEntity<>(dptoDto, HttpStatus.OK);
+		if (response.isPresent()) {
+			return new ResponseEntity<>(response.get(), HttpStatus.OK);
+		}
+		return new ResponseEntity<>("ID não encontrado", HttpStatus.NO_CONTENT);
     }
 	
 	public ResponseEntity<?> inserirDepartamento(DepartamentoRequestDTO dpto) {  

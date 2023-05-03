@@ -17,10 +17,10 @@ import com.br.saude.repository.medico.MedicosRepository;
 public class MedicoService {
 	
 	@Autowired
-	MedicosRepository medicosRepositoy;
+	MedicosRepository medicosRepository;
 	
 	public ResponseEntity<List<Medico>> consultarMedicos() {
-		List<Medico> response = medicosRepositoy.findAllByOrderByIdAsc();
+		List<Medico> response = medicosRepository.findAllByOrderByIdAsc();
 		
         return new ResponseEntity<>(response, HttpStatus.OK);
 	}
@@ -30,20 +30,15 @@ public class MedicoService {
 		Optional<Medico> response = null;
 		
 		try {
-			response = medicosRepositoy.findById(id);
+			response = medicosRepository.findById(id);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 
-		MedicoDTO medico = new MedicoDTO();
-		medico.setId(response.get().getId());
-		medico.setName(response.get().getName());
-		medico.setEmail(response.get().getEmail());
-		medico.setDepartmentId(response.get().getDepartamentoId());
-		medico.setBirthDate(response.get().getBirthDate());
-		medico.setBaseSalary(response.get().getBaseSalary());
-
-		return new ResponseEntity<>(medico, HttpStatus.OK);
+		if (response.isPresent()) {
+			return new ResponseEntity<>(response.get(), HttpStatus.OK);
+		}
+		return new ResponseEntity<>("ID não encontrado", HttpStatus.NO_CONTENT);
 	}
 	
 	public ResponseEntity<?> registrarMedico(MedicoRequestDTO medicoRequestDTO) {
@@ -56,7 +51,7 @@ public class MedicoService {
 	
 		Medico response = new Medico();
 		try {
-			response = medicosRepositoy.save(medico);
+			response = medicosRepository.save(medico);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
@@ -71,7 +66,7 @@ public class MedicoService {
 		Medico response = new Medico();
 		
 		try {
-			responseConsulta = medicosRepositoy.findById(medicoDTO.getId());
+			responseConsulta = medicosRepository.findById(medicoDTO.getId());
 			
 			if (!responseConsulta.isPresent()) {
 				return new ResponseEntity<>("ID Não encontrado.", HttpStatus.BAD_REQUEST);
@@ -81,11 +76,11 @@ public class MedicoService {
 			medico.setId(responseConsulta.get().getId());
 			medico.setBaseSalary(medicoDTO.getBaseSalary());
 			medico.setBirthDate(medicoDTO.getBirthDate());
-			medico.setDepartamentId(medicoDTO.getDepartmentId());
+			medico.setDepartamentId(medicoDTO.getDepartmentoId());
 			medico.setEmail(medicoDTO.getEmail());
 			medico.setName(medicoDTO.getName());
 			
-			response = medicosRepositoy.save(medico);
+			response = medicosRepository.save(medico);
 			
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
@@ -97,13 +92,13 @@ public class MedicoService {
 	public ResponseEntity<?> removerMedico(Integer id) {
 		Optional<Medico> responseConsulta = null;
 		try {
-			responseConsulta = medicosRepositoy.findById(id);
+			responseConsulta = medicosRepository.findById(id);
 			
 			if (!responseConsulta.isPresent()) {
 				return new ResponseEntity<>("ID Não encontrado.", HttpStatus.BAD_REQUEST);
 			}
 			
-			medicosRepositoy.deleteMedicoById(id);
+			medicosRepository.deleteMedicoById(id);
 			
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
