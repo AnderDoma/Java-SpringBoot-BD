@@ -4,7 +4,9 @@
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/AnderDoma/SpringBootProject/blob/main/Licence) 
 
 # Sobre o projeto
-Projeto criado com o objetivo de implementar um ambiente com Java e SpringBoot, para futuramente integrar a um Front-End.
+Projeto criado com o objetivo de implementar um ambiente com Java e SpringBoot, utilizando CRUD, onde um usuário autenticado consegue
+realizar inclusão, consulta e remoção dos dados armazenados no banco de dados MYSQL.
+Futuramente o projeto será integrado a um front-end.
 
 ## Modelo conceitual
 ![Modelo Conceitual](https://github.com/AnderDoma/images/blob/main/ModeloLógico.PNG)
