@@ -1,13 +1,13 @@
 package com.br.saude.projeto;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(classes = ProjetoApplicationTests.class)
-class ProjetoApplicationTests {
+public class ProjetoApplicationTests {
 
 	@Test
-	void contextLoads() {
+	public void contextLoads() {
 	}
 
 }

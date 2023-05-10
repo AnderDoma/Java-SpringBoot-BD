@@ -3,11 +3,14 @@ package com.br.saude.consulta.service.departamento;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.br.saude.consulta.service.cliente.ClienteService;
 import com.br.saude.dto.departamento.DepartamentoDTO;
 import com.br.saude.dto.departamento.DepartamentoRequestDTO;
 import com.br.saude.entity.Departamento;
@@ -15,16 +18,20 @@ import com.br.saude.repository.departamento.DepartamentoRepository;
 
 @Service
 public class DepartamentoService {
+	
+	Logger logger = LoggerFactory.getLogger(ClienteService.class);
 
 	@Autowired
 	DepartamentoRepository departamentoRepository;
 	
 	public ResponseEntity<?> consultaTodosDepartamentos() {
+		logger.info("Inicio consultar todos os departamentos");
 		List<Departamento> response = null;
 		
 		try {
 			response = departamentoRepository.findAllByOrderByIdAsc();
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 
@@ -32,12 +39,14 @@ public class DepartamentoService {
 	}
 
 	public ResponseEntity<?> getById(Integer id) {
+		logger.info("Inicio consultar departamento por id");
 		Optional<Departamento> response = null; 
 		
 		try {
 			response = departamentoRepository.findById(id);
 		
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 		
@@ -48,6 +57,7 @@ public class DepartamentoService {
     }
 	
 	public ResponseEntity<?> inserirDepartamento(DepartamentoRequestDTO dpto) {  
+		logger.info("Inicio inserir departamento");
 		Departamento dptoDto = new Departamento();
 		
 		dptoDto.setName(dpto.getNome());
@@ -58,6 +68,7 @@ public class DepartamentoService {
 		try {
 			response = departamentoRepository.save(dptoDto);
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 				
@@ -65,7 +76,7 @@ public class DepartamentoService {
     }
 	
 	public ResponseEntity<?> atualizarDepartamento(DepartamentoDTO dpto) {  
-		
+		logger.info("Inicio atualizar departamento");
 		Optional<Departamento> responseConsulta = null;
 		Departamento dptoDto = new Departamento();
 		Departamento response = new Departamento();
@@ -82,6 +93,7 @@ public class DepartamentoService {
 			
 			response = departamentoRepository.save(dptoDto);
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 		
@@ -89,7 +101,7 @@ public class DepartamentoService {
     }
 	
 	public ResponseEntity<?> remover(Integer id) {
-		
+		logger.info("Inicio remover departamento");
 		Optional<Departamento> dpto = null;
 		
 		try {
@@ -108,6 +120,7 @@ public class DepartamentoService {
 			}
 			
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 				

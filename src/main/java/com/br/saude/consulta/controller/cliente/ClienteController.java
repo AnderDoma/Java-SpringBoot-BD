@@ -15,7 +15,7 @@ import com.br.saude.consulta.service.cliente.ClienteService;
 import com.br.saude.dto.cliente.ClienteDTO;
 
 @RestController
-@RequestMapping("/v1/saude/cliente")
+@RequestMapping("/v1/saude/in/cliente")
 public class ClienteController {
 
 	@Autowired

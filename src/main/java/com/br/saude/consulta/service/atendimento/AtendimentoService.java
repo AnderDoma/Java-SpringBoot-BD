@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,22 +20,26 @@ import com.br.saude.repository.atendimento.AtendimentoRepository;
 @Service
 public class AtendimentoService {
 	
+	Logger logger = LoggerFactory.getLogger(AtendimentoService.class);
+	
 	@Autowired
 	AtendimentoRepository atendimentoRepository;
 	
 	public ResponseEntity<List<Atendimento>> consultaTodosAtendimentos() {
+		logger.info("Inicio consulta todos os atendimentos");
 		List<Atendimento> response = atendimentoRepository.findAllByOrderByIdAsc();
 		
         return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	public ResponseEntity<?> consultaAtendimentoPorId(Integer id) {
-
+		logger.info("Inicio consulta atendimentos por id");
 		Optional<Atendimento> response = null;
 		
 		try {
 			response = atendimentoRepository.findById(id);
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 
@@ -45,6 +51,7 @@ public class AtendimentoService {
 	}
 	
 	public ResponseEntity<?> inserirAtendimento(AtendimentoDTO atendimentoDTO) throws ParseException {
+		logger.info("Inicio inserir atendimentos");
 		Atendimento atendimento = new Atendimento();
 		atendimento.setClienteId(atendimentoDTO.getClienteId());
 		atendimento.setDataAtendimento(atendimentoDTO.getDataAtendimento());
@@ -65,6 +72,7 @@ public class AtendimentoService {
 		try {
 			response = atendimentoRepository.save(atendimento);
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 		
@@ -72,6 +80,7 @@ public class AtendimentoService {
 	}
 	
 	public ResponseEntity<?> atualizarAtendimento(AtendimentoDTO atendimentoDTO) {
+		logger.info("Inicio atualizar atendimentos");
 		Optional<Atendimento> responseConsulta = null;
 		
 		Atendimento response = new Atendimento();
@@ -96,6 +105,7 @@ public class AtendimentoService {
 			response = atendimentoRepository.save(atendimento);
 			
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 			
@@ -103,6 +113,7 @@ public class AtendimentoService {
 	}
 	
 	public ResponseEntity<?> removerAtendimento(Integer id) {
+		logger.info("Inicio remover atendimentos");
 		Optional<Atendimento> responseConsulta = null;
 		try {
 			responseConsulta = atendimentoRepository.findById(id);
@@ -114,6 +125,7 @@ public class AtendimentoService {
 			atendimentoRepository.deleteAtendimentoById(id);
 			
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 		

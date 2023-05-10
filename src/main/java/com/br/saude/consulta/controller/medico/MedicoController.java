@@ -19,7 +19,7 @@ import com.br.saude.dto.medicos.MedicoRequestDTO;
 import com.br.saude.entity.Medico;
 
 @RestController
-@RequestMapping("/v1/saude/medico")
+@RequestMapping("/v1/saude/in/medico")
 public class MedicoController {
 	
 	@Autowired

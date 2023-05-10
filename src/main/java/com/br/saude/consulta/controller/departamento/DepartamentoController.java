@@ -16,7 +16,7 @@ import com.br.saude.dto.departamento.DepartamentoDTO;
 import com.br.saude.dto.departamento.DepartamentoRequestDTO;
 
 @RestController
-@RequestMapping("/v1/saude/departamento")
+@RequestMapping("/v1/saude/in/departamento")
 public class DepartamentoController {
 
 	@Autowired

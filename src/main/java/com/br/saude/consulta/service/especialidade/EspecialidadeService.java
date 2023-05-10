@@ -3,6 +3,8 @@ package com.br.saude.consulta.service.especialidade;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +16,20 @@ import com.br.saude.repository.especialidade.EspecialidadeRepository;
 
 @Service
 public class EspecialidadeService {
+	
+	Logger logger = LoggerFactory.getLogger(EspecialidadeService.class);
 
 	@Autowired
 	EspecialidadeRepository especialidadeRepository;
 
 	public ResponseEntity<?> consultarTodasEspecialidades() {
+		logger.info("Inicio consultar todas as especialidades");
 		List<Especialidade> response = null;
 
 		try {
 			response = especialidadeRepository.findAllByOrderByIdAsc();
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 
@@ -31,12 +37,14 @@ public class EspecialidadeService {
 	}
 
 	public ResponseEntity<?> getById(Integer id) {
+		logger.info("Inicio consulta especialidade por id");
 		Optional<Especialidade> response = null;
 
 		try {
 			response = especialidadeRepository.findById(id);
 
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 
@@ -47,6 +55,7 @@ public class EspecialidadeService {
 	}
 
 	public ResponseEntity<?> registrarEspecialidade(EspecialidadeDTO especialidadeDTO) {
+		logger.info("Inicio registrar especialidades");
 		Especialidade especialidade = new Especialidade();
 		especialidade.setName(especialidadeDTO.getName());
 
@@ -55,6 +64,7 @@ public class EspecialidadeService {
 		try {
 			response = especialidadeRepository.save(especialidade);
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 
@@ -62,6 +72,7 @@ public class EspecialidadeService {
 	}
 
 	public ResponseEntity<?> atualizarEspecialidade(EspecialidadeDTO especialidadeDTO) {
+		logger.info("Inicio atualizar especialidades");
 		Optional<Especialidade> responseConsulta = null;
 		Especialidade response = new Especialidade();
 
@@ -78,6 +89,7 @@ public class EspecialidadeService {
 
 			response = especialidadeRepository.save(especialidade);
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>("ERRO AO REALIZAR A OPERAÇÃO", HttpStatus.UNAUTHORIZED);
 		}
 
@@ -85,6 +97,7 @@ public class EspecialidadeService {
 	}
 
 	public ResponseEntity<?> deletarEspecialidade(Integer id) {
+		logger.info("Inicio deletar especialidades");
 		Optional<Especialidade> especialidade = null;
 
 		try {
@@ -101,6 +114,7 @@ public class EspecialidadeService {
 			}
 
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 

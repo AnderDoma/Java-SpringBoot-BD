@@ -3,13 +3,13 @@ package com.br.saude.repository.cliente;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.br.saude.dto.cliente.ClienteDTO;
 import com.br.saude.entity.Cliente;
-
-import jakarta.transaction.Transactional;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {

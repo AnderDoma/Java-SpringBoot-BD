@@ -3,6 +3,8 @@ package com.br.saude.consulta.service.medico;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,17 +18,20 @@ import com.br.saude.repository.medico.MedicosRepository;
 @Service
 public class MedicoService {
 	
+	Logger logger = LoggerFactory.getLogger(MedicoService.class);
+	
 	@Autowired
 	MedicosRepository medicosRepository;
 	
 	public ResponseEntity<List<Medico>> consultarMedicos() {
+		logger.info("Inicio consulta todos os médicos");
 		List<Medico> response = medicosRepository.findAllByOrderByIdAsc();
 		
         return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	public ResponseEntity<?> consultaMedicoPorId(Integer id) {
-
+		logger.info("Inicio consulta médico por id");
 		Optional<Medico> response = null;
 		
 		try {
@@ -42,6 +47,7 @@ public class MedicoService {
 	}
 	
 	public ResponseEntity<?> registrarMedico(MedicoRequestDTO medicoRequestDTO) {
+		logger.info("Inicio registro médicos");
 		Medico medico = new Medico();
 		medico.setBaseSalary(medicoRequestDTO.getBaseSalary());
 		medico.setBirthDate(medicoRequestDTO.getBirthDate());
@@ -61,6 +67,7 @@ public class MedicoService {
 	}
 	
 	public ResponseEntity<?> atualizarMedico(MedicoDTO medicoDTO) {
+		logger.info("Inicio atualizar médicos");
 		Optional<Medico> responseConsulta = null;
 		
 		Medico response = new Medico();
@@ -90,6 +97,7 @@ public class MedicoService {
 	}
 	
 	public ResponseEntity<?> removerMedico(Integer id) {
+		logger.info("Inicio remover médicos");
 		Optional<Medico> responseConsulta = null;
 		try {
 			responseConsulta = medicosRepository.findById(id);

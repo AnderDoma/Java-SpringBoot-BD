@@ -3,6 +3,8 @@ package com.br.saude.consulta.service.cliente;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,22 +17,26 @@ import com.br.saude.repository.cliente.ClienteRepository;
 @Service
 public class ClienteService {
 	
+	Logger logger = LoggerFactory.getLogger(ClienteService.class);
+	
 	@Autowired
 	ClienteRepository clienteRepository;
 	
 	public ResponseEntity<List<Cliente>> consultaTodosClientes() {
+		logger.info("Inicio consultar todos os clientes");
 		List<Cliente> response = clienteRepository.findAllByOrderByIdAsc();
 		
         return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	public ResponseEntity<?> consultaClientePorId(Integer id) {
-
+		logger.info("Inicio clientes por id");
 		Optional<Cliente> response = null;
 		
 		try {
 			response = clienteRepository.findById(id);
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 
@@ -41,6 +47,7 @@ public class ClienteService {
 	}
 	
 	public ResponseEntity<?> inserirCliente(ClienteDTO clienteDTO) {
+		logger.info("Inicio inserir clientes");
 		Cliente cliente = new Cliente();
 		cliente.setName(clienteDTO.getName());
 		cliente.setEmail(clienteDTO.getEmail());
@@ -58,6 +65,7 @@ public class ClienteService {
 	}
 	
 	public ResponseEntity<?> atualizarCliente(ClienteDTO clienteDTO) {
+		logger.info("Inicio atualizar clientes");
 		Optional<Cliente> responseConsulta = null;
 		
 		Cliente response = new Cliente();
@@ -79,6 +87,7 @@ public class ClienteService {
 			response = clienteRepository.save(cliente);
 			
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 			
@@ -86,6 +95,7 @@ public class ClienteService {
 	}
 	
 	public ResponseEntity<?> removerCliente(Integer id) {
+		logger.info("Inicio remover clientes");
 		Optional<Cliente> responseConsulta = null;
 		try {
 			responseConsulta = clienteRepository.findById(id);
@@ -97,6 +107,7 @@ public class ClienteService {
 			clienteRepository.deleteClienteById(id);
 			
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 		

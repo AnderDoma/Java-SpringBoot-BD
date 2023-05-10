@@ -15,7 +15,7 @@ import com.br.saude.consulta.service.especialidade.EspecialidadeService;
 import com.br.saude.dto.especialidade.EspecialidadeDTO;
 
 @RestController
-@RequestMapping("/v1/saude/especialidade")
+@RequestMapping("/v1/saude/in/especialidade")
 public class EspecialidadeController {
 	
 	@Autowired

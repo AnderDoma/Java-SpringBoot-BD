@@ -15,7 +15,7 @@ import com.br.saude.consulta.service.plano.PlanoService;
 import com.br.saude.dto.plano.PlanoDTO;
 
 @RestController
-@RequestMapping("/v1/saude/plano")
+@RequestMapping("/v1/saude/in/plano")
 public class PlanoController {
 
 	@Autowired
