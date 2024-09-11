@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,7 +27,6 @@ public class InternalFilter extends OncePerRequestFilter{
 			HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-
 		if (!request.getRequestURI().contains("/v1/saude/auth/login")) {
 			String token = request.getHeader("Authorization");
 
@@ -50,7 +48,6 @@ public class InternalFilter extends OncePerRequestFilter{
 				req.addHeaderValue("userName", tokenAberto.getUserName());
 				req.addHeaderValue("cpf", tokenAberto.getSub());	
 				req.addHeaderValue("userRole", tokenAberto.getUserRole());	
-				
 				
 			} catch (Exception e) {
 				response.setContentType("application/json");

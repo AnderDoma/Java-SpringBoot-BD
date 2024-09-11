@@ -33,5 +33,4 @@ public class TokenValidation {
 		}
 		return null;
 	}
-
 }
